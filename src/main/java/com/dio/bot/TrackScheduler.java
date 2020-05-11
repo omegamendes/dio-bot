@@ -9,6 +9,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 public final class TrackScheduler implements AudioLoadResultHandler {
 
     private final AudioPlayer player;
+    private AudioTrack track;
 
     public TrackScheduler(final AudioPlayer player) {
         this.player = player;
@@ -16,6 +17,7 @@ public final class TrackScheduler implements AudioLoadResultHandler {
 
     @Override
     public void trackLoaded(final AudioTrack track) {
+        this.track = track;
         // LavaPlayer found an audio source for us to play
         player.playTrack(track);
     }
@@ -33,5 +35,9 @@ public final class TrackScheduler implements AudioLoadResultHandler {
     @Override
     public void loadFailed(final FriendlyException exception) {
         // LavaPlayer could not parse an audio source for some reason
+    }
+
+    public AudioTrack getTrack() {
+        return track;
     }
 }
