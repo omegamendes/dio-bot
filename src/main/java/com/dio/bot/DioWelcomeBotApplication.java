@@ -1,32 +1,20 @@
 package com.dio.bot;
 
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
-import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
-import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
-import com.sedmelluq.discord.lavaplayer.track.playback.NonAllocatingAudioFrameBuffer;
 import discord4j.core.DiscordClient;
-import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.VoiceStateUpdateEvent;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
-import discord4j.core.object.VoiceState;
-import discord4j.core.object.entity.Member;
-import discord4j.core.object.entity.User;
-import discord4j.core.object.entity.channel.VoiceChannel;
-import discord4j.voice.AudioProvider;
-import discord4j.voice.VoiceConnection;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Future;
 
 @SpringBootApplication
+@Slf4j
 public class DioWelcomeBotApplication {
 
     private static final Map<String, Command> commands = new HashMap<>();
@@ -43,7 +31,7 @@ public class DioWelcomeBotApplication {
         DiscordClient.create(System.getenv("token"))
                 .withGateway(client -> {
                     client.getEventDispatcher().on(ReadyEvent.class)
-                            .subscribe(ready -> System.out.println("Logged in as " + ready.getSelf().getUsername()));
+                            .subscribe(ready -> log.info("Logged in as " + ready.getSelf().getUsername()));
                     client.getEventDispatcher().on(VoiceStateUpdateEvent.class)
                             .subscribe( event -> {
                                 new VoiceCommand().voiceStateUpdate(client, event);

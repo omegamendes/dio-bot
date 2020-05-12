@@ -2,12 +2,14 @@ package com.dio.bot;
 
 import com.google.cloud.texttospeech.v1.*;
 import com.google.protobuf.ByteString;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class QuickStartSample {
+@Slf4j
+public class GoogleVoicePlayer {
 
     /** Demonstrates using the Text-to-Speech API. */
     public static String getAudio(String wordToSay) {
@@ -40,7 +42,7 @@ public class QuickStartSample {
                 // Write the response to the output file.
                 try (OutputStream out = new FileOutputStream("output.mp3")) {
                     out.write(audioContents.toByteArray());
-                    System.out.println("Audio content written to file \"output.mp3\"");
+                    log.info("Audio content written to file \"output.mp3\"");
                 }
             }
         } catch (IOException e) {

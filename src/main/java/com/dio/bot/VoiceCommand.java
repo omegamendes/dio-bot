@@ -11,9 +11,11 @@ import discord4j.core.object.entity.User;
 import discord4j.core.object.entity.channel.VoiceChannel;
 import discord4j.voice.AudioProvider;
 import discord4j.voice.VoiceConnection;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.Future;
 
+@Slf4j
 public class VoiceCommand {
 
     final AudioPlayerManager playerManager;
@@ -34,7 +36,7 @@ public class VoiceCommand {
         User user = event.getCurrent().getUser().block();
         User self = client.getSelf().block();
         if(user.getId().equals(self.getId())){
-            System.out.println("evento do bot");
+            log.info("Evento gerado pelo próprio bot");
             return;
         }
 
@@ -48,7 +50,7 @@ public class VoiceCommand {
     private void sendMessage(AudioPlayerManager playerManager, AudioProvider provider, TrackScheduler scheduler, VoiceChannel channel, User user, String msg) {
         //entrou
         VoiceConnection conn = channel.join(spec -> spec.setProvider(provider)).block();
-        Future voice = playerManager.loadItem(QuickStartSample.getAudio(user.getUsername()+" "+msg), scheduler);
+        Future voice = playerManager.loadItem(GoogleVoicePlayer.getAudio(user.getUsername()+" "+msg), scheduler);
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
