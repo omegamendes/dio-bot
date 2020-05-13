@@ -34,3 +34,6 @@ out/
 ### Credentials ###
 .env
 credentials.json
+
+### lombok ###
+lombok.config

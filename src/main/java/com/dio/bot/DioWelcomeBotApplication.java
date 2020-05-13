@@ -5,6 +5,7 @@ import discord4j.core.event.domain.VoiceStateUpdateEvent;
 import discord4j.core.event.domain.lifecycle.ReadyEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import reactor.core.publisher.Flux;
@@ -23,6 +24,8 @@ public class DioWelcomeBotApplication {
         commands.put("ping", event -> event.getMessage().getChannel()
                 .flatMap(channel -> channel.createMessage("Pong!"))
                 .then());
+
+        commands.put("xpto", event -> new XptoCommand().execute(event));
     }
 
     public static void main(String[] args) {
